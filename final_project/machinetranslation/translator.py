@@ -9,22 +9,24 @@ authenticator = IAMAuthenticator(apikey)
 language_translator = LanguageTranslatorV3(version='2021-08-17',
         authenticator=authenticator)
 
-language_translator.set_service_url('https://api.us-south.language-translator.watson.cloud.ibm.com')
+language_translator.set_service_url(url)
 
 
 def englishToFrench(englishText):
+    if englishText =="": return ""
     translation = language_translator.translate(text=englishText,
             model_id='en-fr').get_result()
     jsonTranslate = json.dumps(translation, indent=2,
                                ensure_ascii=False)
-    frenchText = jsonTranslate['translations'][0]['translation']
-    return frenchText
+    frenchText = json.loads(jsonTranslate)
+    return frenchText['translations'][0]['translation']
 
 
 def frenchToEnglish(frenchText):
+    if frenchText =="": return ""
     translation = language_translator.translate(text=frenchText,
             model_id='fr-en').get_result()
     jsonTranslate = json.dumps(translation, indent=2,
                                ensure_ascii=False)
-    englishText = jsonTranslate['translations'][0]['translation']
-    return englishText
+    englishText = json.loads(jsonTranslate)
+    return englishText['translations'][0]['translation']
